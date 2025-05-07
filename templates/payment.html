@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - FunkyShop | Payment</title>
+  <link rel="stylesheet" type="text/css" href="static/css/payment.css">
+</head>
+
+<body>
+
+<h1>Payment</h1>
+<div class="step-indicator">Step 3 of 3: Review & Pay</div>
+
+<form id="payment-form" action="/thankyou">
+
+  <h2>Billing Details</h2>
+  <input type="text" id="name" name="name" placeholder="Full Name" required readonly>
+  <input type="email" id="email" name="email" placeholder="Email" required readonly>
+  <input type="tel" id="phone" name="phone" placeholder="Phone Number" required readonly>
+  <input type="text" id="address" name="address" placeholder="Address" required readonly>
+
+  <h2>Payment Details</h2>
+  <input type="text" id="upi" name="upi" placeholder="Your UPI ID" required>
+
+  <div class="order-summary" id="order-summary">
+    <!-- Order summary will load here -->
+  </div>
+
+  <button type="submit">Pay Now</button>
+
+</form>
+
+<script>
+  // Load billing details
+  const billingDetails = JSON.parse(localStorage.getItem('billingDetails'));
+  if (billingDetails) {
+    document.getElementById('name').value = billingDetails.name;
+    document.getElementById('email').value = billingDetails.email;
+    document.getElementById('phone').value = billingDetails.phone;
+    document.getElementById('address').value = billingDetails.address;
+  }
+
+  // Load cart details
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  function loadOrderSummary() {
+    const orderSummary = document.getElementById('order-summary');
+    let html = "<h2>Order Summary</h2><ul>";
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price * item.qty;
+      html += `
+        <li>
+          <span>${item.name} x${item.qty}</span>
+          <span>₹${(item.price * item.qty).toFixed(2)}</span>
+        </li>
+      `;
+    });
+    html += `</ul><h3>Total: ₹${total.toFixed(2)}</h3>`;
+    orderSummary.innerHTML = html;
+  }
+  loadOrderSummary();
+</script>
+
+</body>
+</html>

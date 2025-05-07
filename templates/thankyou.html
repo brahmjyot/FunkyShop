@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Luxury Brand | Thank You</title>
+        <link rel="stylesheet" href="static/css/thankyou.css" />
+    </head>
+    <body>
+        <div class="thankyou-container">
+            <h1>Thank You! 🎉</h1>
+            <p>Your order has been placed successfully.</p>
+            <a href="/" class="btn-home">Back to Home</a>
+        </div>
+
+        <div class="order-summary" id="order-summary">
+            
+        </div>
+
+        <div class="confetti" id="confetti-container"></div>
+
+        <script>
+            // Simple Confetti Generator
+            const confettiContainer =
+                document.getElementById("confetti-container");
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti-piece");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDelay = Math.random() * 3 + "s";
+                confettiContainer.appendChild(confetti);
+            }
+
+            const cart = JSON.parse(localStorage.getItem("orderSummary")) || [];
+            function getRandomArbitrary(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+            } 
+            function loadOrderSummary() {
+                const orderSummary = document.getElementById("order-summary");
+                let html = "<h2>Order Summary</h2><ul>";
+                let total = 0;
+                cart.forEach((item) => {
+                    total += item.price * item.qty;
+                    html += `
+                    <ul>
+                        <li><strong>Order Number:</strong> ${getRandomArbitrary(10000,20000)}</li>
+                        <li><strong>Product:</strong> ${item.name}</li>
+                        <li><strong>Quantity:</strong> ${item.qty}</li>
+                        <li><strong>Total Paid:</strong> ₹${(item.price * item.qty).toFixed(2)}</li>
+                    </ul>
+                    `;
+                });
+                html += `</ul>
+                <p class="small-text">We’ve sent a confirmation to your email.</p>`;
+                orderSummary.innerHTML = html;
+            }
+            
+            loadOrderSummary();
+
+
+        </script>
+    </body>
+</html>

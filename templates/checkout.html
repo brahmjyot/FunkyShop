@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - FunkyShop</title>
+  <link rel="stylesheet" type="text/css" href="static/css/checkout.css">
+</head>
+
+<body>
+
+<h1>Checkout</h1>
+<div class="step-indicator">Step 2 of 3: Billing Details & Order Summary</div>
+
+<form id="billing-form">
+
+  <h2>Billing Details</h2>
+  <input type="text" placeholder="Full Name" id="name" name="name" required>
+  <input type="email" placeholder="Email Address" id="email" name="email" required>
+  <input type="text" placeholder="Phone Number" id="phone" name="phone" required>
+  <textarea placeholder="Shipping Address" id="address" name="address" required></textarea>
+
+  <div class="order-summary" id="order-summary">
+    <!-- Order items will appear here -->
+  </div>
+
+  <button type="submit">Proceed to Payment</button>
+
+</form>
+
+<script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+    function loadOrderSummary() {
+      const orderSummary = document.getElementById('order-summary');
+  
+      if (cart.length === 0) {
+        orderSummary.innerHTML = "<h2>Your cart is empty 🛒</h2>";
+        return;
+      }
+  
+      let html = "<h2>Order Summary</h2><ul>";
+      let total = 0;
+  
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        const imageUrl = item.image ? item.image : 'https://via.placeholder.com/50';
+        html += `
+          <li>
+            <img src="${imageUrl}" alt="${item.name}">
+            <div class="item-details">
+              <span>${item.name} x${item.qty}</span>
+              <small>₹${(item.price * item.qty).toFixed(2)}</small>
+            </div>
+          </li>`;
+      });
+  
+      html += `</ul><h3>Total: ₹${total.toFixed(2)}</h3>`;
+      orderSummary.innerHTML = html;
+    }
+  
+    loadOrderSummary();
+  
+    document.getElementById('billing-form').addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent real submission
+  
+      const billingDetails = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value
+      };
+      localStorage.setItem('billingDetails', JSON.stringify(billingDetails));
+      localStorage.setItem('orderSummary', JSON.stringify(cart));
+  
+      window.location.href = "/payment";
+    });
+  </script>
+  
+
+</body>
+</html>

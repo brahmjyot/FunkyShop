@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | FunkyShop</title>
+    <link rel="stylesheet" href="static/css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>Welcome to FunkyShop!</h1>
+        <hr>
+        <h2>Login</h2>
+
+        <!-- Form to login -->
+        <form method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- If there's an error message passed from Flask, display it here -->
+        {% if error %}
+            <div style="color: red; margin-top: 1rem;">{{ error }}</div>
+        {% endif %}
+
+        <div class="signup-link">
+            Not a member? <a href="{{ url_for('register') }}">Signup</a>
+        </div>
+    </div>
+
+</body>
+</html>

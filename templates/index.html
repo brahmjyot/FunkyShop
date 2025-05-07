@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Funky Shop</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/index.css">   
+</head>
+
+<body>
+<!-- ==== Navbar ==== -->
+<header id="navbar">
+  <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+    <a href="/">
+      <img src="static/images/Logo.png" alt="FunkyShop Logo">
+    </a>
+    <span style="font-weight: bold; font-size: 24px;">FunkyShop</span>
+  </div>
+  <nav>
+    <a href="#shop">Shop</a>
+    <a href="#contact">Contact</a>
+    <a href="/login">Login</a>
+    <button id="cart-button" class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+  </nav>
+</header>
+
+<!-- ==== Hero Carousel ==== -->
+<div class="carousel">
+    <div class="carousel-wrapper">
+      <div class="carousel-images" id="carousel-images">
+        <img src="static/images/slide1.jpg" alt="Slide 1">
+        <img src="static/images/slide2.jpg" alt="Slide 2">
+        <img src="static/images/slide3.jpg" alt="Slide 3">
+      </div>
+    </div>
+  </div>
+
+<!-- ==== Hero Banner ==== -->
+<div id="shop" class="hero">
+    Funky Fashion Deals!
+  </div>
+  
+  <!-- ==== Categories Section ==== -->
+  <div class="categories">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('Men')">Men</button>
+    <button onclick="filterCategory('Women')">Women</button>
+  
+    <!-- ==== Searchbar inside categories ==== -->
+    <div class="search-container">
+      <input type="text" id="searchBar" placeholder="Search products...">
+      <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="search icon">
+    </div>
+  </div>
+  
+  <!-- ==== Products Section ==== -->
+  <div id="product-list" class="products">
+    <!-- Products will load dynamically here -->
+  </div>
+  
+<!-- ==== Cart Modal ==== -->
+<div class="cart-modal" id="cart">
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <h4 id="cart-total"></h4>
+  <button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
+</div>
+
+<!-- ==== Contact Section ==== -->
+<div id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-form">
+      <form action="https://formspree.io/f/movekyla" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="4" placeholder="Your Query" required></textarea>
+        <button type="submit">Send Query</button>
+      </form>
+    </div>
+  </div>
+  
+
+<!-- ==== Footer ==== -->
+<footer class="footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        © Copyrighted to Funkyshop
+      </div>
+      <div class="footer-right">
+        <a href="https://instagram.com/" target="_blank">
+          <img src="\static\images\instagram.svg" alt="Instagram" class="social-icon">
+        </a>
+        <a href="https://wa.me/yourwhatsapplink" target="_blank">
+          <img src="\static\images\whatsapp.svg" alt="WhatsApp" class="social-icon">
+        </a>
+        <a href="https://facebook.com/" target="_blank">
+            <img src="\static\images\facebook.svg" alt="Facebook" class="social-icon">
+          </a>
+      </div>
+    </div>
+  </footer>
+  
+<!-- ==== Back to Top Button ==== -->
+<button id="backToTop" onclick="scrollToTop()">↑</button>
+
+<!-- ==== Scripts ==== -->
+<script>
+// Carousel Auto-Slide
+let currentSlide = 0;
+      const slides = document.querySelectorAll('#carousel-images img');
+      setInterval(() => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          document.getElementById('carousel-images').style.transform = `translateX(-${currentSlide * 100}%)`;
+      }, 3000);
+
+
+
+const products = [
+  { id: 1, name: "Men Funky Shirt", price: 499, image: "static/images/boys_funky_shirt1.jpg", category: "Men" },
+  { id: 2, name: "Women Elegant Dress", price: 599, image: "static/images/women_elegant_dress1.jpg", category: "Women" },
+  { id: 3, name: "Men Stylish Pants", price: 399, image: "static/images/men_pants1.jpg", category: "Men" },
+  { id: 4, name: "Women Summer Top", price: 299, image: "static/images/women_funky_top1.jpg", category: "Women" },
+  { id: 5, name: "Men Funky Shirt", price: 499, image: "static/images/boys_funky_shirt2.jpg", category: "Men" },
+  { id: 6, name: "Women Elegant Dress", price: 599, image: "static/images/women_elegant_dress2.jpg", category: "Women" },
+  { id: 7, name: "Men Stylish Pants", price: 399, image: "static/images/men_pants2.jpg", category: "Men" },
+  { id: 8, name: "Women Summer Top", price: 299, image: "static/images/women_funky_top2.jpg", category: "Women" },
+  { id: 9, name: "Men Funky Shirt", price: 499, image: "static/images/boys_funky_shirt3.jpg", category: "Men" },
+  { id: 10, name: "Women Elegant Dress", price: 599, image: "static/images/women_elegant_dress3.jpg", category: "Women" },
+  { id: 11, name: "Men Stylish Pants", price: 399, image: "static/images/men_pants3.jpg", category: "Men" },
+  { id: 12, name: "Women Summer Top", price: 299, image: "static/images/women_funky_top3.jpg", category: "Women" }
+];
+
+let cart = [];
+
+function displayProducts(filter = 'all') {
+  const productList = document.getElementById('product-list');
+  productList.innerHTML = '';
+  const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+  const filtered = products.filter(p =>
+    (filter === 'all' || p.category === filter) &&
+    (p.name.toLowerCase().includes(searchQuery))
+  );
+  filtered.forEach(product => {
+    const fakePrice = product.price * 2; // Fake original price (double)
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>
+        <span style="text-decoration: line-through; color: gray;">₹${fakePrice}</span>
+        <span style="color: black; font-weight: bold;"> ₹${product.price}</span>
+      </p>
+      <button onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+    productList.appendChild(card);
+  });
+}
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  const cartItem = cart.find(item => item.id === id);
+  if (cartItem) {
+    cartItem.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  updateCart();
+
+  // ✅ Show simple "Added to cart" text
+  const addButton = document.querySelector(`button[onclick="addToCart(${id})"]`);
+  const originalText = addButton.innerText;
+  addButton.innerText = "Added!";
+  addButton.disabled = true;
+
+  setTimeout(() => {
+    addButton.innerText = originalText;
+    addButton.disabled = false;
+  }, 1500); // 1.5 seconds later reset back
+}
+
+function updateCart() {
+  document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+  const cartItems = document.getElementById('cart-items');
+  cartItems.innerHTML = '';
+  let total = 0;
+  cart.forEach(item => {
+    total += item.price * item.qty;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
+      <span>${item.name} x${item.qty}</span>
+      <button onclick="removeFromCart(${item.id})" style="margin-left:auto;">X</button>
+    `;
+    cartItems.appendChild(div);
+  });
+  document.getElementById('cart-total').innerText = "Total: ₹" + total;
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  updateCart();
+}
+
+function toggleCart() {
+  const cartDiv = document.getElementById('cart');
+  if (cartDiv.style.display === 'flex') {
+    cartDiv.style.display = 'none';
+    document.removeEventListener('click', closeCartOutside); // Remove listener if cart is hidden
+  } else {
+    cartDiv.style.display = 'flex';
+    setTimeout(() => {
+      document.addEventListener('click', closeCartOutside);
+    }, 0); // Add listener after a tiny delay so it doesn't immediately close
+  }
+}
+
+function closeCartOutside(event) {
+  const cartDiv = document.getElementById('cart');
+  const cartButton = document.getElementById('cart-button'); // <-- id of your cart button
+  if (!cartDiv.contains(event.target) && !cartButton.contains(event.target)) {
+    cartDiv.style.display = 'none';
+    document.removeEventListener('click', closeCartOutside);
+  }
+}
+
+function filterCategory(category) {
+  displayProducts(category);
+}
+function goToCheckout() {
+  if(cart.length === 0){ alert("Your cart is empty!"); return; }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  window.location.href = "/checkout";
+}
+document.getElementById('searchBar').addEventListener('input', () => displayProducts());
+window.onload = () => displayProducts();
+
+/* ==== Navbar Shrink Effect ==== */
+window.addEventListener('scroll', function(){
+  const navbar = document.getElementById('navbar');
+  if(window.scrollY > 50){
+    navbar.style.padding = "0.5rem 2rem";
+  } else {
+    navbar.style.padding = "1rem 2rem";
+  }
+});
+
+/* ==== Back to Top Button ==== */
+window.addEventListener('scroll', function(){
+  const backBtn = document.getElementById('backToTop');
+  backBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
