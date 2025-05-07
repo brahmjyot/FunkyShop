@@ -1,0 +1,128 @@
+/* login.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #00cfc8, #75e0dd, #00cfc8);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.login-container h2 {
+    margin-bottom: 10px;
+    color: #000000;
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.login-container hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1.5px solid #ccc;
+    outline: none;
+    font-size: 15px;
+    font-weight: 300;
+    background: transparent;
+}
+
+form input[type="email"] {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1.5px solid #ccc;
+    outline: none;
+    font-size: 15px;
+    font-weight: 300;
+    background: transparent;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-bottom: 1.5px solid #4f91ff;
+}
+form input[type="email"]:focus {
+    border-bottom: 1.5px solid #4f91ff;
+}
+
+.forgot-password {
+    width: 100%;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    font-size: 13px;
+    text-decoration: none;
+    color: #999;
+    font-weight: 300;
+}
+
+.forgot-password a:hover {
+    color: #4f91ff;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #00cfc8;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #008682;
+}
+
+.signup-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #999;
+    font-weight: 300;
+}
+
+.signup-link a {
+    color: #4f91ff;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}

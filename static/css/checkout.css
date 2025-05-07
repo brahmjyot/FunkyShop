@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f8;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    color: #00cfc8;
+    margin-bottom: 1rem;
+  }
+
+  .step-indicator {
+    text-align: center;
+    color: #555;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+
+  form {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #00cfc8;
+    font-size: 1.5rem;
+  }
+
+  input, textarea {
+    width: 96%;
+    padding: 0.8rem;
+    margin: 0.5rem 0 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #f9f9f9;
+  }
+
+  input:focus, textarea:focus {
+    border-color: #00cfc8;
+    outline: none;
+    background: #ffffff;
+  }
+
+  button {
+    width: 100%;
+    padding: 1rem;
+    background: #00cfc8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    margin-top: 1rem;
+  }
+
+  button:hover {
+    background: #00b5ae;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  .order-summary {
+    margin-top: 2rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    background: #f4f6f8;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  li img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+    background: #eee;
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-details span {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .item-details small {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  h3 {
+    margin-top: 1rem;
+    color: #333;
+    font-size: 1.3rem;
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 1rem;
+    }
+    form {
+      padding: 1.5rem;
+    }
+  }
